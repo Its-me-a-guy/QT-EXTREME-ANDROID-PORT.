@@ -5109,10 +5109,10 @@ class PlayState extends MusicBeatState
 			//Dodge code, yes it's bad but oh well. -Haz
 			//var dodgeButton = controls.ACCEPT; //I have no idea how to add custom controls so fuck it. -Haz
 
-			if(controls.ACCEPT || _pad.buttonA.justPressed)
+			if(controls.ACCEPT)
 				trace('butttonpressed');
 
-			if(controls.ACCEPT || _pad.buttonA.justPressed && !bfDodging && bfCanDodge){
+			if(controls.ACCEPT && !bfDodging && bfCanDodge){
 				trace('DODGE START!');
 				bfDodging = true;
 				bfCanDodge = false;
@@ -5149,10 +5149,10 @@ class PlayState extends MusicBeatState
 			//Dodge code, yes it's bad but oh well. -Haz
 			//var dodgeButton = controls.ACCEPT; //I have no idea how to add custom controls so fuck it. -Haz
 			//Haha Copy-paste LOL (although modified a bit)
-			if(controls.ACCEPT || _pad.buttonA.justPressed)
+			if(controls.ACCEPT)
 				trace('butttonpressed');
 
-			if(controls.ACCEPT || _pad.buttonA.justPressed && !bfDodging && bfCanDodge){
+			if(controls.ACCEPT && !bfDodging && bfCanDodge){
 				trace('DODGE START!');
 				bfDodging = true;
 				bfCanDodge = false;
