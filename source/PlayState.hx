@@ -110,7 +110,7 @@ class PlayState extends MusicBeatState
 	#end
 
 	private var vocals:FlxSound;
-	var _pad:FlxVirtualpad;
+	var _pad:FlxVirtualPad;
 
 	private var dad:Character;
 	private var gf:Character;
