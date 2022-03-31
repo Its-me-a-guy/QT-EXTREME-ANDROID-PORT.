@@ -2073,7 +2073,7 @@ class PlayState extends MusicBeatState
                 #if android
 	        addAndroidControls();
 		controls.setVirtualpad(androidc._virtualpad, FULL, NONE);
-		_pad = new FlxVirtualpad(NONE, A);
+		_pad = new FlxVirtualPad(NONE, A);
 		_pad.alpha = 0.75;
 		_pad.cameras = [camHUD];
 		this.add(_pad);
