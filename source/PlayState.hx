@@ -109,6 +109,7 @@ class PlayState extends MusicBeatState
 	#end
 
 	private var vocals:FlxSound;
+	var _pad:FlxVirtualpad;
 
 	private var dad:Character;
 	private var gf:Character;
@@ -2071,6 +2072,11 @@ class PlayState extends MusicBeatState
 
                 #if android
 	        addAndroidControls();
+					controls.setVirtualpad(androidc._virtualpad, FULL, NONE);
+					_pad = new FlxVirtualpad(NONE, A);
+					_pad.alpha = 0.75;
+					_pad.cameras = [camHUD];
+					this.add(_pad);
                 #end
 
 		// if (SONG.song == 'South')
@@ -5109,10 +5115,10 @@ class PlayState extends MusicBeatState
 			//Dodge code, yes it's bad but oh well. -Haz
 			//var dodgeButton = controls.ACCEPT; //I have no idea how to add custom controls so fuck it. -Haz
 
-			if(FlxG.keys.justPressed.SPACE)
+			if(controls.ACCEPT || _pad.buttonA.justPressed)
 				trace('butttonpressed');
 
-			if(FlxG.keys.justPressed.SPACE && !bfDodging && bfCanDodge){
+			if(controls.ACCEPT || _pad.buttonA.justPressed && !bfDodging && bfCanDodge){
 				trace('DODGE START!');
 				bfDodging = true;
 				bfCanDodge = false;
@@ -5149,10 +5155,10 @@ class PlayState extends MusicBeatState
 			//Dodge code, yes it's bad but oh well. -Haz
 			//var dodgeButton = controls.ACCEPT; //I have no idea how to add custom controls so fuck it. -Haz
 			//Haha Copy-paste LOL (although modified a bit)
-			if(FlxG.keys.justPressed.SPACE)
+			if(controls.ACCEPT || _pad.buttonA.justPressed)
 				trace('butttonpressed');
 
-			if(FlxG.keys.justPressed.SPACE && !bfDodging && bfCanDodge){
+			if(controls.ACCEPT || _pad.buttonA.justPressed && !bfDodging && bfCanDodge){
 				trace('DODGE START!');
 				bfDodging = true;
 				bfCanDodge = false;
