@@ -2073,11 +2073,6 @@ class PlayState extends MusicBeatState
 
                 #if android
 	        addAndroidControls();
-		controls.setVirtualPad(androidc.VirtualPad, FULL, NONE);
-		_pad = new FlxVirtualPad(NONE, A);
-		_pad.alpha = 0.75;
-		_pad.cameras = [camHUD];
-		this.add(_pad);
                 #end
 
 		// if (SONG.song == 'South')
