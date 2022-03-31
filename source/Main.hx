@@ -42,6 +42,8 @@ class Main extends Sprite
 	{
 		super();
 
+ 	        SUtil.gameCrashCheck();
+
 		if (stage != null)
 		{
 			init();
@@ -79,6 +81,8 @@ class Main extends Sprite
 		#if !debug
 		initialState = TitleState;
 		#end
+
+		SUtil.doTheCheck();
 
 		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
 
