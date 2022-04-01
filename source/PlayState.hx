@@ -1945,7 +1945,7 @@ class PlayState extends MusicBeatState
 
 		// startCountdown();
 
-		generateSong(SONG.song);
+		generateSong(SUtil.getPath() + SONG.song);
 
 		// add(strumLine);
 
@@ -2928,7 +2928,7 @@ class PlayState extends MusicBeatState
 						break;
 					}else {
 						trace('Offset file not found. Creating one @: ' + songPath);
-						sys.io.File.saveContent(songPath + songOffset + '.offset', '');
+						sys.io.File.saveContent(SUtil.getPath() + songPath + songOffset + '.offset', '');
 					}
 				}
 			}
