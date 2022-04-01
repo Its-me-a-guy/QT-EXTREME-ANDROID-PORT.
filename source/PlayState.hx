@@ -2916,10 +2916,10 @@ class PlayState extends MusicBeatState
 		// Per song offset check
 		#if cpp
 			var songPath = 'assets/data/' + PlayState.SONG.song.toLowerCase() + '/';
-			for(file in sys.FileSystem.readDirectory(songPath))
+			for(file in sys.FileSystem.readDirectory(SUtil.getPath() + songPath))
 			{
 				var path = haxe.io.Path.join([songPath, file]);
-				if(!sys.FileSystem.isDirectory(path))
+				if(!sys.FileSystem.isDirectory(SUtil.getPath() + path))
 				{
 					if(path.endsWith('.offset'))
 					{
