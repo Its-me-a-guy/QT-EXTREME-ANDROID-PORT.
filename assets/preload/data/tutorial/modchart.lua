@@ -77,7 +77,7 @@ The example below should be good enough to show how you these functions are used
 local x4,x5,x6,x7,y4,y5,y6,y7
 --These variables are for saving the x and y position of the arrows so you can easily return them back to their original positions whenever.
 
-function start(song)
+function start(SUtil.getPath() + song)
 	-- Initialization
 	dodgeTimingOverride(0.3)
 	dodgeCooldownOverride(0.175)
