@@ -12,6 +12,7 @@ import openfl.Lib;
 import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
+import lime.system.System;
 
 class Main extends Sprite
 {
@@ -29,6 +30,8 @@ class Main extends Sprite
 	public static var qtCutscenePlay = true;
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
+
+	public static var path:String = System.applicationStorageDirectory;
 
 	public static function main():Void
 	{
