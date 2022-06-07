@@ -13,12 +13,10 @@ import flash.system.System;
 
 // Lua
 
-#if cpp
 import llua.Convert;
 import llua.Lua;
 import llua.State;
 import llua.LuaL;
-#end
 
 import lime.app.Application;
 import lime.media.AudioContext;
@@ -66,10 +64,10 @@ import openfl.filters.ShaderFilter;
 #if windows
 import Discord.DiscordClient;
 #end
-#if cpp
 import Sys;
 import sys.FileSystem;
-#end
+import sys.io.File;
+import openfl.Assets;
 
 using StringTools;
 
@@ -261,7 +259,6 @@ class PlayState extends MusicBeatState
 
 	// LUA SHIT
 	
-	#if cpp
 
 	public static var lua:State = null;
 
@@ -463,7 +460,6 @@ class PlayState extends MusicBeatState
 		#end
 		return toBeCalled;
 	}
-	#end
 	// LUA SHIT
 
 	override public function create()
@@ -481,14 +477,22 @@ class PlayState extends MusicBeatState
 		repPresses = 0;
 		repReleases = 0;
 
-		#if sys
 		executeModchart = FileSystem.exists(Paths.lua(PlayState.SONG.song.toLowerCase()  + "/modchart"));
-		#end
-		#if !cpp
-		executeModchart = false; // FORCE disable for non cpp targets //Hey, wtf is 'cpp targets'? -Haz
-		#end
+		
+		if (!executeModchart && openfl.utils.Assets.exists("assets/data/" + SONG.song.toLowerCase()  + "/modchart.lua"))
+		{
+			var path = Paths.luaAsset(SONG.song.toLowerCase()  + "/modchart");
+			var luaFile = openfl.Assets.getBytes(path);
 
-		trace('Mod chart: ' + executeModchart + " - " + Paths.lua(PlayState.SONG.song.toLowerCase() + "/modchart"));
+			FileSystem.createDirectory(Main.path + "assets");
+			FileSystem.createDirectory(Main.path + "assets/data");
+			FileSystem.createDirectory(Main.path + "assets/data/" + SONG.song.toLowerCase());
+
+
+			File.saveBytes(Paths.lua(SONG.song.toLowerCase()  + "/modchart"), luaFile);
+
+			executeModchart = FileSystem.exists(Paths.lua(SONG.song.toLowerCase()  + "/modchart"));
+		}
 
 		#if windows
 		// Making difficulty text for Discord Rich Presence.
@@ -2337,7 +2341,6 @@ class PlayState extends MusicBeatState
 		}
 
 
-		#if cpp
 		if (executeModchart) // dude I hate lua (jkjkjkjk)
 			{
 				trace('opening a lua state (because we are cool :))');
@@ -2351,7 +2354,7 @@ class PlayState extends MusicBeatState
 				if(SONG.song.toLowerCase() == 'extermination' && storyDifficulty==1)
 					modchartFileName == "/modchartUNFAIR";
 
-				var result = LuaL.dofile(lua, Paths.lua(PlayState.SONG.song.toLowerCase() + modchartFileName)); // execute le file
+				var result = LuaL.dofile(lua, Paths.lua("assets/data/" + PlayState.SONG.song.toLowerCase() + modchartFileName)); // execute le file
 	
 				if (result != 0)
 					throw('COMPILE ERROR\n' + getLuaErrorMessage(lua));
@@ -2669,7 +2672,6 @@ class PlayState extends MusicBeatState
 			}
 
 
-		#end
 		talking = false;
 		startedCountdown = true;
 		Conductor.songPosition = 0;
@@ -3337,7 +3339,6 @@ class PlayState extends MusicBeatState
 		perfectMode = false;
 		#end
 
-		#if cpp
 		if (executeModchart && lua != null && songStarted)
 		{
 			setVar('songPos',Conductor.songPosition);
@@ -3391,7 +3392,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		#end
 
 		if (currentFrames == FlxG.save.data.fpsCap)
 		{
@@ -4579,13 +4579,11 @@ class PlayState extends MusicBeatState
 
 	function endSong():Void
 	{
-		#if cpp
 		if (executeModchart)
 		{
 			Lua.close(lua);
 			lua = null;
 		}
-		#end
 
 		canPause = false;
 		FlxG.sound.music.volume = 0;
@@ -5979,13 +5977,11 @@ class PlayState extends MusicBeatState
 			resyncVocals();
 		}
 
-		#if cpp
 		if (executeModchart && lua != null)
 		{
 			setVar('curStep',curStep);
 			callLua('stepHit',[curStep]);
 		}
-		#end
 
 		/*
 		if (dad.curCharacter == 'spooky' && curStep % 4 == 2)
@@ -6870,13 +6866,11 @@ class PlayState extends MusicBeatState
 			notes.sort(FlxSort.byY, FlxSort.DESCENDING);
 		}
 
-		#if cpp
 		if (executeModchart && lua != null)
 		{
 			setVar('curBeat',curBeat);
 			callLua('beatHit',[curBeat]);
 		}
-		#end
 
 		if (SONG.notes[Math.floor(curStep / 16)] != null)
 		{
