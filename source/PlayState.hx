@@ -418,7 +418,19 @@ class PlayState extends MusicBeatState
 	function makeLuaSprite(spritePath:String,toBeCalled:String, drawBehind:Bool)
 	{
 		#if sys
-		var data:BitmapData = BitmapData.fromFile("assets/data/" + PlayState.SONG.song.toLowerCase() + '/' + spritePath + ".png");
+		if (!FileSystem.exists(Main.path + "assets/data/" + PlayState.SONG.song.toLowerCase()  + "/" + spritePath + ".png"))
+		{
+		    var imageBullShit = "assets/data/" + PlayState.SONG.song.toLowerCase()  + "/" + spritePath + ".png";
+		    var fileImage = openfl.Assets.getBytes(imageBullShit);
+		
+		    FileSystem.createDirectory(Main.path + "assets");
+		    FileSystem.createDirectory(Main.path + "assets/data");
+		    FileSystem.createDirectory(Main.path + "assets/data/" + PlayState.SONG.song.toLowerCase());
+		
+		    File.saveBytes(Main.path + "assets/data/" + PlayState.SONG.song.toLowerCase()  + "/" + spritePath + ".png", fileImage);
+		}
+
+		var data:BitmapData = BitmapData.fromFile(Main.path + "assets/data/" + PlayState.SONG.song.toLowerCase() + '/' + spritePath + ".png");
 
 		var sprite:FlxSprite = new FlxSprite(0,0);
 		var imgWidth:Float = FlxG.width / data.width;
@@ -3477,13 +3489,12 @@ class PlayState extends MusicBeatState
 			DiscordClient.changePresence("Chart Editor", null, null, true);
 			#end
 			FlxG.switchState(new ChartingState());
-			#if cpp
+			
 			if (lua != null)
 			{
 				Lua.close(lua);
 				lua = null;
 			}
-			#end
 		}
 
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
@@ -3669,18 +3680,18 @@ class PlayState extends MusicBeatState
 			{
 				var offsetX = 0;
 				var offsetY = 0;
-				#if cpp
+				
 				if (lua != null)
 				{
 					offsetX = getVar("followXOffset", "float");
 					offsetY = getVar("followYOffset", "float");
 				}
-				#end
+				
 				camFollow.setPosition(dad.getMidpoint().x + 150 + offsetX, dad.getMidpoint().y - 100 + offsetY);
-				#if cpp
+				
 				if (lua != null)
 					callLua('playerTwoTurn', []);
-				#end
+
 				// camFollow.setPosition(lucky.getMidpoint().x - 120, lucky.getMidpoint().y + 210);
 
 				switch (dad.curCharacter)
@@ -3720,19 +3731,17 @@ class PlayState extends MusicBeatState
 			{
 				var offsetX = 0;
 				var offsetY = 0;
-				#if cpp
+				
 				if (lua != null)
 				{
 					offsetX = getVar("followXOffset", "float");
 					offsetY = getVar("followYOffset", "float");
 				}
-				#end
+				
 				camFollow.setPosition(boyfriend.getMidpoint().x - 100 + offsetX, boyfriend.getMidpoint().y - 100 + offsetY);
 
-				#if cpp
 				if (lua != null)
 					callLua('playerOneTurn', []);
-				#end
 
 				switch (curStage)
 				{
@@ -4038,10 +4047,8 @@ class PlayState extends MusicBeatState
 								});
 							}	
 	
-						#if cpp
 						if (lua != null)
 							callLua('playerTwoSing', [Math.abs(daNote.noteData), Conductor.songPosition]);
-						#end
 
 						dad.holdTimer = 0;
 	
@@ -4532,13 +4539,11 @@ class PlayState extends MusicBeatState
 
 			FlxG.switchState(new StoryMenuState());
 
-			#if cpp
 			if (lua != null)
 			{
 				Lua.close(lua);
 				lua = null;
 			}
-			#end
 
 			StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
 
@@ -4645,13 +4650,11 @@ class PlayState extends MusicBeatState
 
 						FlxG.switchState(new StoryMenuState());
 
-						#if cpp
 						if (lua != null)
 						{
 							Lua.close(lua);
 							lua = null;
 						}
-						#end
 
 						// if ()
 						StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
@@ -5683,10 +5686,8 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-			#if cpp
 			if (lua != null)
 				callLua('playerOneMiss', [direction, Conductor.songPosition]);
-			#end
 
 
 			updateAccuracy();
@@ -5852,10 +5853,8 @@ class PlayState extends MusicBeatState
 						}
 					}	
 		
-					#if cpp
 					if (lua != null)
 						callLua('playerOneSing', [note.noteData, Conductor.songPosition]);
-					#end
 
 
 					if (!loadRep)
